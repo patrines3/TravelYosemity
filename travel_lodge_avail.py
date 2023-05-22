@@ -39,7 +39,7 @@ url_pages = {"Travel Lodge": "https://reservations.ahlsmsworld.com/Yosemite/Plan
 for page in url_pages:    
     # Ask the driver to direct us to the url
     driver.get(url_pages[page])
-    print("Processing" , url_pages[page], datetime.datetime.now() )
+    print("\n","Processing" , url_pages[page], datetime.datetime.now() )
 
     time.sleep(2)
     
