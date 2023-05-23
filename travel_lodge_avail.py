@@ -10,13 +10,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import StaleElementReferenceException
-from token_twilio import key_twilio, to_phone, from_phone, alt_phone
 from twilio.rest import Client
+from token_twilio import account_twilio, key_twilio, to_phone, from_phone, alt_phone
+
 
 # Set Twilio to send sms messages
 # Set environment variables for your credentials
 # Read more at http://twil.io/secure
-account_sid = "AC76e55aab103ecc85c59dcb3b7189444e"
+account_sid = account_twilio
 auth_token = key_twilio #os.environ["TWILIO_AUTH_TOKEN"]
 
 
@@ -79,7 +80,6 @@ for page in url_pages:
     avail = driver.find_elements(By.CSS_SELECTOR, '.ui-datepickerAvail-significant:not(.ui-datepicker-unselectable), .ui-datepickerAvail-limited:not(.ui-datepicker-unselectable)') #
     
     days = []
-    avail_days = []
     try:
         for day in avail:
             if day.text != '':
@@ -87,13 +87,11 @@ for page in url_pages:
     except StaleElementReferenceException as Exception:
         #pass
         print('no hay dias disponibles')      
-        #    columns = driver.find_elements(By.CSS_SELECTOR, 'td')
-        #    print(columns[0].class)
-        #    #for i,j in enumerate(columns):
-        #    #    print(columns[i].text)
+
     finally:
         counter = 1
         for i,day in enumerate(days):
+            print(day)
             if i == 0: 
                 continue
             if days[i] == days[i-1] + 1:
@@ -105,7 +103,8 @@ for page in url_pages:
             if counter == 4:
                 break
     
-        if counter == 4: #  & (days[0] == 8)
+        interesting_dates = [8,9,10,11]        
+        if (counter == 4) & set(interesting_dates).issubset(days):
             client  = Client(account_sid, auth_token)
             print('Hay disponibilidad ')
             print(' ,'.join(str(day) for day in days))
