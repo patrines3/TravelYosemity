@@ -103,10 +103,12 @@ for page in url_pages:
             if counter == 4:
                 break
     
-        interesting_dates = [8,9,10,11]        
-        if (counter == 4) & set(interesting_dates).issubset(days):
+        interesting_dates1 = [8,9,10,11]  
+        interesting_dates2 = [26,27,28,29]      
+        #if (counter == 4) & set(interesting_dates).issubset(days): #  & (days[0] == 8)
+        if (set(interesting_dates1).issubset(days)) | (set(interesting_dates2).issubset(days)):
             client  = Client(account_sid, auth_token)
             print('Hay disponibilidad ')
             print(' ,'.join(str(day) for day in days))
-            message = client.messages.create( body='Hay disponibilidad en ' + chosen_month + ' ' + ' ,'.join(str(day) for day in days),from_=from_phone,to=to_phone)
-            message = client.messages.create( body='Hay disponibilidad en ' + chosen_month + ' ' + ' ,'.join(str(day) for day in days),from_=from_phone,to=alt_phone)
+            #message = client.messages.create( body='Hay disponibilidad en ' + chosen_month + ' ' + ' ,'.join(str(day) for day in days),from_=from_phone,to=to_phone)
+            #message = client.messages.create( body='Hay disponibilidad en ' + chosen_month + ' ' + ' ,'.join(str(day) for day in days),from_=from_phone,to=alt_phone)
